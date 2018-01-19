@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -o nounset \
+    -o errexit \
+    -o verbose \
+    -o xtrace
+
+#Call the AWS introspection API to get the host IP
+INSTANCE_IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+
+if [[ -z "${ECS_KAFKA_PORT}" ]]
+   then export ECS_KAFKA_PORT=29092
+fi
+
+export KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://$INSTANCE_IP:$ECS_KAFKA_PORT
+
+exec /etc/confluent/docker/run
