@@ -6,7 +6,7 @@ set -o nounset \
     -o xtrace
 
 #Call the AWS introspection API to get the host IP
-INSTANCE_IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+INSTANCE_IP=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
 
 if [[ -z "${ECS_KAFKA_PORT}" ]]
    then export ECS_KAFKA_PORT=29092
